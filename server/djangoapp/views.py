@@ -43,7 +43,7 @@ def login_user(request):
 @require_POST
 def logout_user(request):
     logout(request)
-    return JsonResponse({'status':'Logged out'})
+    return JsonResponse({'userName':'', 'status':'Logged out'})
 
 @require_POST
 @api_errors
@@ -89,7 +89,8 @@ def reviews(request,dealer_id):
 
 @require_GET
 def cars(request):
-    return JsonResponse({'cars':list(CarModel.objects.values('id','name','year','type','car_make__name'))})
+    rows = list(CarModel.objects.values('id','name','year','type','car_make__name'))
+    return JsonResponse({'cars': rows, 'CarModels': [{'CarMake': row['car_make__name'], 'CarModel': row['name']} for row in rows]})
 
 @require_POST
 @api_errors

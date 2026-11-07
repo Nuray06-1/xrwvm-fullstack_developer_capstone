@@ -1,10 +1,14 @@
+import json
+from pathlib import Path
 from django.core.management.base import BaseCommand
 from djangoapp.models import CarMake, CarModel
 
 class Command(BaseCommand):
-    help = 'Create the course demonstration car catalogue (idempotent)'
+    help = 'Load every car in the supplied course dataset without deleting existing data'
     def handle(self, *args, **kwargs):
-        for make, name, kind in [('Toyota','Camry','Sedan'),('Toyota','RAV4','SUV'),('Honda','Accord','Sedan'),('Honda','CR-V','SUV'),('Ford','F-150','Truck'),('Ford','Explorer','SUV')]:
-            obj, _ = CarMake.objects.get_or_create(name=make, defaults={'description':f'{make} automobiles'})
-            CarModel.objects.get_or_create(car_make=obj, name=name, year=2023, defaults={'type':kind})
-        self.stdout.write(self.style.SUCCESS('Car catalogue ready'))
+        source = Path(__file__).resolve().parents[3] / 'database/data/car_records.json'
+        rows = json.loads(source.read_text())['cars']
+        for row in rows:
+            make, _ = CarMake.objects.get_or_create(name=row['make'], defaults={'description': row['make'] + ' automobiles'})
+            CarModel.objects.get_or_create(car_make=make, name=row['model'], year=row['year'], defaults={'type': row['bodyType']})
+        self.stdout.write(self.style.SUCCESS(f'Car catalogue ready: {CarModel.objects.count()} models'))

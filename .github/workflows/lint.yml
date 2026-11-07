@@ -1,0 +1,29 @@
+name: Lint Python and JavaScript
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  python-lint:
+    name: Python lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install dependencies
+        run: pip install flake8
+      - name: Run Linter
+        run: flake8 server/djangoapp server/djangoproj --select=E9,F63,F7,F82 --show-source --statistics
+  javascript-lint:
+    name: JavaScript lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Install dependencies
+        run: npm ci
+        working-directory: server/frontend
+      - name: Run Linter
+        run: npx eslint src/main.jsx src/components/Register/Register.jsx
+        working-directory: server/frontend
