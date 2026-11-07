@@ -1,0 +1,23 @@
+name: Build and verify application
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: pip install -r server/requirements.txt
+      - run: npm ci && npm run build
+        working-directory: server/frontend
+      - run: python manage.py check && python manage.py test djangoapp && python manage.py makemigrations --check --dry-run
+        working-directory: server
+      - run: docker build -t bestcars-web .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-production-build
+          path: server/frontend/dist
