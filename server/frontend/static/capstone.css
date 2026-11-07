@@ -1,0 +1,1 @@
+body{margin:0;font:17px system-ui;color:#172b3a;background:#f4f7f9}nav{display:flex;gap:25px;padding:25px;background:white}a{color:#076d70}.active{font-weight:bold}main{max-width:1080px;margin:50px auto;padding:25px}.team{display:flex;gap:24px}.card{flex:1;padding:24px;background:white;border-radius:16px}img{width:100%;max-height:220px;object-fit:cover}h1{font-size:44px}

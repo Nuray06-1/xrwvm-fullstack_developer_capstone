@@ -1,5 +1,9 @@
 # Best Cars — Full Stack Dealership Portal
 
+Repository name: `xrwvm-fullstack_developer_capstone`
+
+Project name: Best Cars — Full Stack Dealership Portal
+
 A working educational application built from the IBM Skills Network capstone starter. Browse dealerships by state, read reviews with sentiment analysis, register and sign in, and post a review with vehicle and purchase information.
 
 ## Architecture

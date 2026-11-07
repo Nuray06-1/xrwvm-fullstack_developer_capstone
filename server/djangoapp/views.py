@@ -52,7 +52,7 @@ def registration(request):
     username=data['userName'].strip()
     if not username or len(username)>150:
         raise ValueError()
-    user=User(username=username, first_name=data.get('firstName','')[:150], last_name=data.get('lastName','')[:150])
+    user=User(username=username, email=data.get('email','').strip(), first_name=data.get('firstName','')[:150], last_name=data.get('lastName','')[:150])
     try:
         user.full_clean(exclude=['password'])
         validate_password(data['password'],user)
