@@ -74,3 +74,15 @@ Run migrations and `seed_cars` before serving (the image command does this). Use
 Starter and sample data: [IBM Skills Network](https://github.com/ibm-developer-skills-network/xrwvm-fullstack_developer_capstone), Apache-2.0 (original LICENSE retained). Implementation prepared with AI assistance. Contact addresses on the demonstration site use the reserved `.example` domain.
 
 This repository does not by itself certify course completion. Screenshots must show actual runs, and any academic submission must follow the course's AI-use and authorship rules. Cloud deployment and a successful remote CI run should be verified before claiming them.
+
+### Code Engine educational demo
+
+`server/database/Dockerfile.demo` packages MongoDB and the Express API in one
+container for the restricted Skills Network Code Engine environment. MongoDB
+binds only to the container loopback interface; only HTTP port 3030 is exposed.
+Run this demo with exactly one instance. Its database, and the web container's
+SQLite database, are ephemeral and reset when their containers are replaced.
+This is an educational deployment, not a durable production database setup.
+The regular Compose deployment retains data in Docker volumes.
+
+The demo image was built locally and `/fetchDealer/1` returned the seeded dealer.
